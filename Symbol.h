@@ -54,7 +54,7 @@ static const int OptrCpd[OPERATORN] = {2, 2, 2, 2, 1, 1, 2, 2, 2, 2,
 */
 
 #if VARREPLACE
-#define VARIABLEN 2  //常量的个数
+#define VARIABLE_LEN 2  //常量的个数
 
 //常量映射,同样注意不能具有前包含性,且不能包含运算符,如:"cospi"包含了"cos",所以不能使用"cospi"
 static const string Variables[] = {"PI", "e"};
@@ -103,7 +103,7 @@ void precondition(string &expr) {
 
 #if (VARREPLACE)
     //变量替换
-    for (int i = 0; i < VARIABLEN; ++i) {
+    for (int i = 0; i < VARIABLE_LEN; ++i) {
         while (at = s.find(Variables[i]), ~at) {
             s.replace(at, Variables[i].size(), VarRpcmet[i]);
 #if (DEBUG & DEBUG_VARIABALE_MAP)

@@ -149,7 +149,7 @@ bool SpecialCMD(string &s) {
 
         return true;
     }
-    if (s == "debugon") {  //打开dubug
+    if (s == "debugon") {  //打开debug
         SYMBOLDEBUG = true;
         return true;
     }

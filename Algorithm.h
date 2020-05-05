@@ -15,7 +15,7 @@ using namespace std;
 
 #define LL long long
 #define EPS 1e-10
-#define MAXOFDENOMINATOR 100000LL
+#define MAX_OF_DENOMINATOR 100000LL
 
 //最大公约数
 LL gcd(LL a, LL b) { return a == 0 ? b : gcd(b % a, a); }
@@ -41,7 +41,7 @@ LL factorial(LL x) {
 
 //返回a/b,检查除数b是否为0
 inline double divCheck(double a, double b) {
-    if (b == 0) throw runtime_error("Error:Bad Number For Divison!");
+    if (b == 0) throw runtime_error("Error:Bad Number For Division!");
 
     return a / b;
 }
@@ -53,10 +53,10 @@ inline bool isInt(double val) {
 }
 
 //将double类型转换为分数类型输出,有精度丢失
-//输出的数分母最大不超过MAXOFDENOMINATOR
+//输出的数分母最大不超过MAX_OF_DENOMINATOR
 bool doubleToFraction(double val) {
     if (!isInt(val)) {
-        for (LL i = 2; i < MAXOFDENOMINATOR; ++i) {
+        for (LL i = 2; i < MAX_OF_DENOMINATOR; ++i) {
             if (isInt(i * val)) {
                 printf("%" LLD "/%" LLD, (LL)round(i * val), i);
                 // cout << "\t" << round(i*val) << "/" << i;
@@ -66,32 +66,6 @@ bool doubleToFraction(double val) {
     }
     return false;
 }
-
-/*void doubleToFraction(double val){
-        if (!isInt(val)){
-                double m = 1;
-                bool negative = val < 0 ? true : false;
-                val = abs(val);
-
-                LL _fenzhi, _fenmu = 100000, fenzhi, fenmu;
-                _fenzhi = val*_fenmu;
-                for (LL i = -1000; i < 1000; ++i){
-                        if (i + _fenzhi>0){
-                                for (LL j = -1000; j < 1000; ++j){
-                                        if (j + _fenmu>0){
-                                                if (m>abs(val - (i + _fenzhi) /
-(j + _fenmu))){ m = abs(val - (i + _fenzhi) / (j + _fenmu)); fenzhi = i +
-_fenzhi; fenmu = j + _fenmu;
-                                                }
-                                        }
-                                }
-                        }
-                }
-                if (negative)fenzhi = -fenzhi;
-
-                cout << "\t" << fenzhi << "/" << fenmu;
-        }
-}*/
 
 //(a^b)%mod
 LL fastPow(LL a, LL b, LL mod) {
