@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include "Commen.h"
 #include "Algorithm.h"
 
 using namespace std;
@@ -74,7 +75,7 @@ class Fraction {
         return tmp;
     }
 
-    void Print() const { printf("%lld/%lld\n", numerator, denominator); }
+    void Print() const { printf("%" LLD "/%" LLD "\n", numerator, denominator); }
 
    private:
     LL numerator;    // fen zi

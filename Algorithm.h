@@ -7,6 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include <algorithm>
+#include "Commen.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ bool doubleToFraction(double val) {
     if (!isInt(val)) {
         for (LL i = 2; i < MAXOFDENOMINATOR; ++i) {
             if (isInt(i * val)) {
-                printf("%lld/%lld", (LL)round(i * val), i);
+                printf("%" LLD "/%" LLD, (LL)round(i * val), i);
                 // cout << "\t" << round(i*val) << "/" << i;
                 return true;
             }

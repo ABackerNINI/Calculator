@@ -6,6 +6,12 @@
 #include <time.h>
 #include <iostream>
 
+#ifdef _WIN32
+#define LLD "I64d"
+#else
+#define LLD "lld"
+#endif
+
 using namespace std;
 
 bool SYMBOLDEBUG = true;

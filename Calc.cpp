@@ -11,7 +11,10 @@ By ABacker 9/18/2015
 #include "Calc.h"
 #include "Commen.h"
 #include "Algorithm.h"
-// #include <windows.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 using namespace std;
 
@@ -141,7 +144,7 @@ bool SpecialCMD(string &s) {
     }
     if (getVar(s, 0) == "isprime") {  //判断数字是否为质数
         double ans = Calc(s.substr(7), false);
-        printf(isPrime(ans) ? "\t%lld true\n" : "\t%lld false\n",
+        printf(isPrime(ans) ?("\t%" LLD " true\n") :( "\t%" LLD " false\n"),
                (long long)ans);
 
         return true;
