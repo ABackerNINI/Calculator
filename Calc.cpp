@@ -37,15 +37,15 @@ void demo() {
     s = "3/2 + 1/3 + 1/(-3)";
     demo(s, "运算式中可以有空格");  // 1.5 3/2
     s = "3/(-2)";
-    demo(s, "负号需要用括号括起来");  //-1.5 -3/2
+    demo(s, "负号需要用括号括起来");  // -1.5 -3/2
     s = "1-(1+2)*3";
-    demo(s, "末尾可以不加\"=\"符号");  //-8
+    demo(s, "末尾可以不加\"=\"符号");  // -8
     s = "(1+2)*3=";
     demo(s, "末尾可以加\"=\"符号");  // 9
     s = "2/{[1-(1+2)]*3}=";
-    demo(s, "可以使用圆括号,方括号和花括号");  //-0.333 -1/3
+    demo(s, "可以使用圆括号,方括号和花括号");  // -0.333 -1/3
     s = "10-3*(2/1-(6*2+(21+3/5)*8/3)*(-2))+8*2";
-    demo(s, "括号嵌套");  //-397.6
+    demo(s, "括号嵌套");  // -397.6
     printf("\n");
 
     printf("##数学函数示例:\n");
@@ -105,7 +105,7 @@ void demo() {
 }
 
 bool SpecialCMD(string &s) {
-    //去除所有空格
+    // 去除所有空格
     char *tmp = new char[s.size()];
     unsigned int i = 0, j = 0;
     for (; i < s.size(); ++i)
@@ -114,15 +114,15 @@ bool SpecialCMD(string &s) {
     s = (string)tmp;
 
     if (s == "") return true;
-    if (s == "cls") {  //清屏
+    if (s == "cls") {  // 清屏
         system("cls");
         return true;
     }
-    if (s == "calc") {  //调用系统计算器
+    if (s == "calc") {  // 调用系统计算器
         system("calc");
         return true;
     }
-    if (isLtr(s[0])) {  //变量赋值
+    if (isLtr(s[0])) {  // 变量赋值
         int pos = 0;
         string var = getVar(s, pos);
         if (pos != -1 && (s[pos + 1] == '=')) {
@@ -131,41 +131,41 @@ bool SpecialCMD(string &s) {
             return true;
         }
     }
-    if (getVar(s, 0) == "hex") {  //十六进制输出
+    if (getVar(s, 0) == "hex") {  // 十六进制输出
         printHex(Calc(s.substr(4, s.size() - 5), false));
         return true;
     }
-    if (getVar(s, 0) == "radix") {  //以n位小数形式输出
+    if (getVar(s, 0) == "radix") {  // 以n位小数形式输出
         int pos = 6;
         unsigned int n = (unsigned int)getFigure(s, pos);
         printRadix(Calc(s.substr(pos + 2, s.size() - pos - 3), false), n);
 
         return true;
     }
-    if (getVar(s, 0) == "isprime") {  //判断数字是否为质数
+    if (getVar(s, 0) == "isprime") {  // 判断数字是否为质数
         double ans = Calc(s.substr(7), false);
-        printf(isPrime(ans) ?("\t%" LLD " true\n") :( "\t%" LLD " false\n"),
+        printf(isPrime(ans) ? ("\t%" LLD " true\n") : ("\t%" LLD " false\n"),
                (long long)ans);
 
         return true;
     }
-    if (s == "debugon") {  //打开debug
+    if (s == "debugon") {  // 打开debug
         SYMBOLDEBUG = true;
         return true;
     }
-    if (s == "debugoff") {  //关闭debug
+    if (s == "debugoff") {  // 关闭debug
         SYMBOLDEBUG = false;
         return true;
     }
-    if (s == "help") {  //打开帮助信息
+    if (s == "help") {  // 打开帮助信息
         printf("%s", helpInf);
         return true;
     }
-    if (s == "var") {  //打印全部自定义变量
+    if (s == "var") {  // 打印全部自定义变量
         cache.printAll();
         return true;
     }
-    if (s == "demo") {  //显示示例
+    if (s == "demo") {  // 显示示例
         demo();
         return true;
     }

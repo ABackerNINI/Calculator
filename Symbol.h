@@ -20,28 +20,28 @@ using namespace std;
 
 // 1,2,3,4, 5, 6, 7, 8,9, 10,  11, 12, 13,    14,    15,    16, 17, 18,19,
 // 20,21,22,23,24,25,26,  27, 28,29,
-//+,-,*,/,++,--,**,//,%,pow,sqrt,sin,cos,tan,arcsin,arccos,arctan,gcd,lcm,ln,log,
-//^, |, &, !, ~, ',arc',var, #,
+// +,-,*,/,++,--,**,//,%,pow,sqrt,sin,cos,tan,arcsin,arccos,arctan,gcd,lcm,ln,log,
+// ^, |, &, !, ~, ',arc',var, #,
 
-#define OPERATORN 29  //运算符的个数
+#define OPERATORN 29  // 运算符的个数
 #define DEVIATION \
-    -100  //运算符映射偏移量,改为'a'可以更好debug运算符替换,但可能影响运算符映射
+    -100  // 运算符映射偏移量,改为'a'可以更好debug运算符替换,但可能影响运算符映射
 
-//运算符映射,注意不能具有前包含性,即"++"包含了"+",所以"++"需在后;"#"需在最后
+// 运算符映射,注意不能具有前包含性,即"++"包含了"+",所以"++"需在后;"#"需在最后
 // 1,   2,   3,   4,    5,    6,    7,    8,     9,    10,     11,    12,    13,
 // 14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
 // 25,  26,  27,     28, 29,
 static const string Operators[OPERATORN] = {
-    "+",      "-",   "*",    "/",    "++",  "--",  "**",     "//",
+    "+",      "-",   "*",    "/",    "++",  "--",  "**",     "// ",
     "%",      "pow", "sqrt", "sin",  "cos", "tan", "arcsin", "arccos",
     "arctan", "gcd", "lcm",  "ln",   "log", "^",   "|",      "&",
     "~",      "!",   "'",    "arc'", "#"};
 static const int OptrPrio[OPERATORN] = {
     2, 2, 3, 3, 2, 2, 4, 4, 3, 5, 5, 5, 5, 5, 5,
-    5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 6, 6, 5, 0};  //运算符优先级
-static const int OptrCpd[OPERATORN] = {2, 2, 2, 2, 1, 1, 2, 2, 2, 2,
-                                       1, 1, 1, 1, 1, 1, 1, 2, 2, 1,
-                                       2, 2, 2, 2, 1, 1, 1, 1, 0};  //运算符目数
+    5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 6, 6, 5, 0};  // 运算符优先级
+static const int OptrCpd[OPERATORN] = {
+    2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1,
+    1, 1, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0};  // 运算符目数
 
 /**
 0	#
@@ -54,20 +54,20 @@ static const int OptrCpd[OPERATORN] = {2, 2, 2, 2, 1, 1, 2, 2, 2, 2,
 */
 
 #if VARREPLACE
-#define VARIABLE_LEN 2  //常量的个数
+#define VARIABLE_LEN 2  // 常量的个数
 
-//常量映射,同样注意不能具有前包含性,且不能包含运算符,如:"cospi"包含了"cos",所以不能使用"cospi"
+// 常量映射,同样注意不能具有前包含性,且不能包含运算符,如:"cospi"包含了"cos",所以不能使用"cospi"
 static const string Variables[] = {"PI", "e"};
 static const string VarRpcmet[] = {" 3.14159265358979323846264",
                                    "2.718281828459"};
 #endif
 
-//结束符#
+// 结束符#
 inline int endSym() { return OPERATORN - 1 + DEVIATION; }
 
-//预处理括号,正负号和运算符映射
+// 预处理括号,正负号和运算符映射
 void precondition(string &expr) {
-    //括号替换
+    // 括号替换
     int size = (int)expr.size();
     for (int i = 0; i < size; ++i) {
         if (expr[i] == '{' || expr[i] == '[')
@@ -76,7 +76,7 @@ void precondition(string &expr) {
             expr[i] = ')';
     }
 
-    //判断正负号:+-在第一位或者在'('或','后的为正负号
+    // 判断正负号:+-在第一位或者在'('或','后的为正负号
     for (int i = 0; i < size; ++i) {
         if (expr[i] == '-' || expr[i] == '+') {
             if (i == 0 || expr[i - 1] == '(' || expr[i - 1] == ',') {
@@ -88,7 +88,7 @@ void precondition(string &expr) {
         }
     }
 
-    //符号替换
+    // 符号替换
     size_t at;
     string rpc = " ";
     for (int i = OPERATORN - 1; i > -1; --i) {
@@ -102,7 +102,7 @@ void precondition(string &expr) {
     }
 
 #if (VARREPLACE)
-    //变量替换
+    // 变量替换
     for (int i = 0; i < VARIABLE_LEN; ++i) {
         while (at = s.find(Variables[i]), ~at) {
             s.replace(at, Variables[i].size(), VarRpcmet[i]);
@@ -121,16 +121,16 @@ void precondition(string &expr) {
 //  1,   2,   3,   4,    5,    6,    7,    8,     9,    10,     11,    12, 13,
 //  14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
 //  25,  26,  27,     28, 29,
-//"+", "-", "*", "/", "++", "--", "**", "//",   "%", "pow", "sqrt", "sin",
-//"cos", "tan", "arcsin", "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",
-//"|", "&", "~", "!", "'", "arc'", "#"
+// "+", "-", "*", "/", "++", "--", "**", "//",   "%", "pow", "sqrt", "sin",
+// "cos", "tan", "arcsin", "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",
+// "|", "&", "~", "!", "'", "arc'", "#"
 
-//计算OPTR栈首定义的运算
+// 计算OPTR栈首定义的运算
 void Calc(stack<char> &OPTR, stack<double> &OPND) {
     char sym = GetTop(OPTR);
     double ans = 0, b = 0, a = 0;
     if (OptrCpd[sym - DEVIATION] > 0) b = GetTop(OPND);
-    if (OptrCpd[sym - DEVIATION] == 2) a = GetTop(OPND);  //双目运算
+    if (OptrCpd[sym - DEVIATION] == 2) a = GetTop(OPND);  // 双目运算
 
     switch (sym - DEVIATION + 1) {
         case 1:
@@ -213,10 +213,10 @@ void Calc(stack<char> &OPTR, stack<double> &OPND) {
             break;
         case 27:
             ans = b / 180 * acos(-1.0);
-            break;  //角度转弧度
+            break;  // 角度转弧度
         case 28:
             ans = b * 180 / acos(-1.0);
-            break;  //弧度转角度
+            break;  // 弧度转角度
         default:
             throw runtime_error("Error:Wrong Expression!");
             break;
@@ -232,7 +232,7 @@ void Calc(stack<char> &OPTR, stack<double> &OPND) {
     }
 }
 
-//返回运算符优先级
+// 返回运算符优先级
 inline int Prio(char c) {
     if (c == '(') return -1;
     return OptrPrio[c - DEVIATION];

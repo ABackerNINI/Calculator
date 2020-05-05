@@ -24,7 +24,7 @@ const static char *helpInf =
     "1	^(异或)		|(或)		&(与)		~(取反)\n"
     "2	+		-		++(正)		--(负)\n"
     "3	*		/		%%(取模)\n"
-    "4	**(乘方)	//(开方)\n"
+    "4	**(乘方)	// (开方)\n"
     "5	math_func\n"
     "6	!(阶乘)		'(角度转弧度)\n"
     "其中math_func包括:\n"
@@ -37,18 +37,18 @@ const static char *helpInf =
     "\n"
     "输入\"demo\"获取示例...\n";
 
-//判断是否为数字
+// 判断是否为数字
 inline bool isNum(char c) { return c >= '0' && c <= '9'; }
 
-//判断是否为字母
+// 判断是否为字母
 inline bool isLtr(char c) {
     return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 }
 
-//判断是否为大写字母
+// 判断是否为大写字母
 inline bool isCap(char c) { return c >= 'A' && c <= 'Z'; }
 
-//获取string s在位置pos处的数字,并推进pos至数字最后一位
+// 获取string s在位置pos处的数字,并推进pos至数字最后一位
 double getFigure(const string &s, int &pos) {
     double fig = s[pos] - '0';
     int point = -1;
@@ -65,7 +65,7 @@ double getFigure(const string &s, int &pos) {
     return ~point ? fig / pow((long long)10, (long long)point) : fig;
 }
 
-//获取string s在位置pos处的变量名,并推进pos至变量名最后一位
+// 获取string s在位置pos处的变量名,并推进pos至变量名最后一位
 string getVar(const string &s, int &pos) {
     string str = "";
     while (s[pos] == ' ') ++pos;
@@ -77,7 +77,7 @@ string getVar(const string &s, int &pos) {
     return str;
 }
 
-//获取string s在位置pos处的变量名
+// 获取string s在位置pos处的变量名
 string getVar(const string &s, int &&pos) {
     string str = "";
     while (s[pos] == ' ') ++pos;
@@ -89,12 +89,12 @@ string getVar(const string &s, int &&pos) {
     return str;
 }
 
-//获取string s在位置pos处的符号,并推进pos
+// 获取string s在位置pos处的符号,并推进pos
 /*string getSym(const string &s, int &pos){
         string tmp;tmp += s[pos];
 }*/
 
-//判断栈顶是否为空
+// 判断栈顶是否为空
 template <typename T>
 inline T GetTop(stack<T> &st, bool rid = true) {
     if (st.empty()) throw runtime_error("Error:Wrong Expression!");

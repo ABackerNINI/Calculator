@@ -75,7 +75,9 @@ class Fraction {
         return tmp;
     }
 
-    void Print() const { printf("%" LLD "/%" LLD "\n", numerator, denominator); }
+    void Print() const {
+        printf("%" LLD "/%" LLD "\n", numerator, denominator);
+    }
 
    private:
     LL numerator;    // fen zi

@@ -8,18 +8,19 @@
 #include <string>
 #include <iostream>
 
+#include "Commen.h"
 #include "Algorithm.h"
 
 using namespace std;
 
 // #pragma warning(disable:4996)
 
-bool isCap(char c);  //定义与Commen.h
+bool isCap(char c);  // 定义与Commen.h
 
 class Cache {
    public:
     Cache() : autoStrNum(0){};
-    //为push进的数分配一个变量名
+    // 为push进的数分配一个变量名
     void push(double num) {
         string str;
         do {
@@ -30,7 +31,7 @@ class Cache {
         data[str] = num;
         lastPush = str;
     }
-    //将num映射到str上
+    // 将num映射到str上
     void set(const string &str, double num) {
         data[str] = num;
         used[str] = true;
@@ -38,7 +39,7 @@ class Cache {
         _str.push_back(str);
         lastPush = str;
     }
-    //获取str对应的num
+    // 获取str对应的num
     double get(const string &str) {
         if (used[str] || (str.size() == 1 && isCap(str[0])))
             return data[str];
@@ -47,14 +48,14 @@ class Cache {
             throw runtime_error(e.data());
         }
     }
-    //打印上次push进的数据
+    // 打印上次push进的数据
     void printLastPush() {
         cout << "\t" << lastPush << " <- ";  // << data[lastPush];
         printf("%.6f\t", data[lastPush]);
         doubleToFraction(data[lastPush]);
         cout << endl;
     }
-    //打印全部数据
+    // 打印全部数据
     void printAll() {
         for (unsigned int i = 0; i < _str.size(); ++i) {
             cout << "\t" << _str[i] << ": " << data[_str[i]];

@@ -7,6 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include <algorithm>
+
 #include "Commen.h"
 
 using namespace std;
@@ -17,13 +18,13 @@ using namespace std;
 #define EPS 1e-10
 #define MAX_OF_DENOMINATOR 100000LL
 
-//最大公约数
+// 最大公约数
 LL gcd(LL a, LL b) { return a == 0 ? b : gcd(b % a, a); }
 
-//最小公倍数
+// 最小公倍数
 inline LL lcm(LL a, LL b) { return a / gcd(min(a, b), max(a, b)) * b; }
 
-//阶乘
+// 阶乘
 LL factorial(LL x) {
     if (x == 0) return 1;
     bool negative = false;
@@ -39,21 +40,21 @@ LL factorial(LL x) {
     return negative ? -ret : ret;
 }
 
-//返回a/b,检查除数b是否为0
+// 返回a/b,检查除数b是否为0
 inline double divCheck(double a, double b) {
     if (b == 0) throw runtime_error("Error:Bad Number For Division!");
 
     return a / b;
 }
 
-//判断val是否为整数,精度(1e-10)
+// 判断val是否为整数,精度(1e-10)
 inline bool isInt(double val) {
     double d = val - round(val);
     return d > -(1e-10) && d < 1e-10;
 }
 
-//将double类型转换为分数类型输出,有精度丢失
-//输出的数分母最大不超过MAX_OF_DENOMINATOR
+// 将double类型转换为分数类型输出,有精度丢失
+// 输出的数分母最大不超过MAX_OF_DENOMINATOR
 bool doubleToFraction(double val) {
     if (!isInt(val)) {
         for (LL i = 2; i < MAX_OF_DENOMINATOR; ++i) {
@@ -67,7 +68,7 @@ bool doubleToFraction(double val) {
     return false;
 }
 
-//(a^b)%mod
+// (a^b)%mod
 LL fastPow(LL a, LL b, LL mod) {
     LL ret = 1;
     a %= mod;
@@ -83,10 +84,10 @@ LL fastPow(LL a, LL b, LL mod) {
     return ret;
 }
 
-//产生一个属于区间[s,t]的整数
+// 产生一个属于区间[s,t]的整数
 inline int random(int s, int t) { return s + rand() % (t - s + 1); }
 
-//随机产生test个数测试val是否为素数
+// 随机产生test个数测试val是否为素数
 bool FermatTest(LL val, int test = 10000) {
     int seed;
     srand(unsigned(time(0)));
@@ -99,7 +100,7 @@ bool FermatTest(LL val, int test = 10000) {
     return true;
 }
 
-//判断val是否为素数,当数大于1e+9时采用费马测试,有一定误差!
+// 判断val是否为素数,当数大于1e+9时采用费马测试,有一定误差!
 bool isPrime(double val) {
     LL num = (LL)(val + EPS);
     if (num < 10 * 10000 * 10000) {
@@ -113,14 +114,14 @@ bool isPrime(double val) {
         return FermatTest(num);
 }
 
-//将num以n位小数输出
+// 将num以n位小数输出
 inline void printRadix(double num, unsigned int n) {
     char format[10];
     sprintf(format, "\t%%.%uf\n", n);
     printf(format, num);
 }
 
-//将num以十六进制输出
+// 将num以十六进制输出
 inline void printHex(double num) { cout << "\t" << hex << (LL)num << endl; }
 
 #endif
