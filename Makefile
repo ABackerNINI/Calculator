@@ -33,7 +33,7 @@ $(bin): prepare $(obj_bd)
 
 # Dependencies
 
-$(BD)/Calc.o: Calc.h Cache.h Symbol.h Commen.h Algorithm.h
+$(BD)/Calc.o: Calc.h Cache.h Symbol.h Common.h Algorithm.h
 
 # Clean up
 

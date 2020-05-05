@@ -1,15 +1,16 @@
-/*
-Calc V2
+/**
+ * Calc V2
+ *
+ * By ABacker 9/18/2015
+ */
 
-By ABacker 9/18/2015
-*/
+#include "Calc.h"
 
 #include <string>
 #include <cstring>
 #include <iostream>
 
-#include "Calc.h"
-#include "Commen.h"
+#include "Common.h"
 #include "Algorithm.h"
 
 #ifdef _WIN32
@@ -184,6 +185,5 @@ int main() {
             cout << "\t" << e.what() << endl;
         }
     }
-
     return 0;
 }

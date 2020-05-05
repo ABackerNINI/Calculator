@@ -9,7 +9,7 @@
 
 #include "Cache.h"
 #include "Symbol.h"
-#include "Commen.h"
+#include "Common.h"
 
 using namespace std;
 
@@ -31,14 +31,14 @@ double Calc(string expr, bool isCache = true) {
     for (int i = 0; i < size; ++i) {
         if (expr[i] == ' ' || expr[i] == '=')
             continue;
-        else if (isLtr(expr[i])) {  //变量
+        else if (isLtr(expr[i])) {  // 变量
             try {
                 OPND.push(cache.get(getVar(expr, i)));
             } catch (...) {
                 throw runtime_error("Error:Wrong Expression!");
             }
         } else if (isNum(expr[i]))
-            OPND.push(getFigure(expr, i));  //数字
+            OPND.push(getFigure(expr, i));  // 数字
         else if (expr[i] == ',')
             while (GetTop(OPTR, false) != '(') Calc(OPTR, OPND);
         else if (expr[i] == '(')
@@ -48,7 +48,7 @@ double Calc(string expr, bool isCache = true) {
                 Calc(OPTR, OPND);
             }
             GetTop(OPTR);
-        } else {  //符号
+        } else {  // 符号
             while (Prio(expr[i]) <= Prio(GetTop(OPTR, false))) {
                 Calc(OPTR, OPND);
             }

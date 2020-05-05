@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "Commen.h"
+#include "Common.h"
 #include "Algorithm.h"
 
 using namespace std;

@@ -8,7 +8,7 @@
 
 #include <cmath>
 #include <algorithm>
-#include "Commen.h"
+#include "Common.h"
 #include "Algorithm.h"
 
 using namespace std;
