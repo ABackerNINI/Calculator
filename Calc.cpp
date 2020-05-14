@@ -175,6 +175,9 @@ bool SpecialCMD(string &s) {
 }
 
 int main() {
+    system("chcp 65001");
+    system("cls");
+
     printf("输入\"help\"获取帮助信息...\n");
 
     string s;

@@ -1,6 +1,6 @@
 # Build details
 
-CXX = g++
+CXX = clang++
 CXXFLAGS = -W -Wall -g
 BD = ./build
 
@@ -12,6 +12,10 @@ $(BD)/%.o: %.cpp
 # Build Executable
 
 bin = Calc
+
+ifneq ($(shell uname), Linux)
+	bin = Calc.exe
+endif
 
 .PHONY: all
 all: $(bin)
