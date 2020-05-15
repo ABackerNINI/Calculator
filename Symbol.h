@@ -11,7 +11,7 @@
 #include "Common.h"
 #include "Algorithm.h"
 
-extern bool SYMBOLDEBUG;  // defined in Calc.cpp
+extern bool SYMBOL_DEBUG;  // defined in Calc.cpp
 
 // #pragma warning(disable:4996)
 
@@ -227,7 +227,7 @@ void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
 
     OPND.push(ans);
 
-    if (SYMBOLDEBUG) {
+    if (SYMBOL_DEBUG) {
         std::cout << "\t" << a << " " << Operators[sym - DEVIATION] << " " << b
                   << " = " << ans << "\t";
         doubleToFraction(ans);

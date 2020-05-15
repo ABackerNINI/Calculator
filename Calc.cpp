@@ -17,7 +17,7 @@
 #include <windows.h>
 #endif
 
-bool SYMBOLDEBUG = true;
+bool SYMBOL_DEBUG = true;
 
 static const char *helpInf =
     "Calc V2.0    2015    @ABacker\n"
@@ -55,7 +55,7 @@ void demo(const std::string &s, const char *ps = NULL) {
 
 void demo() {
     std::string s;
-    SYMBOLDEBUG = false;
+    SYMBOL_DEBUG = false;
     s = "3/2 + 1/3 + 1/(-3)";
     demo(s, "运算式中可以有空格");  // 1.5 3/2
     s = "3/(-2)";
@@ -123,7 +123,7 @@ void demo() {
     demo(s, "查看已定义变量");
     printf("\n");
 
-    SYMBOLDEBUG = true;
+    SYMBOL_DEBUG = true;
 }
 
 bool SpecialCMD(std::string &s) {
@@ -152,16 +152,7 @@ bool SpecialCMD(std::string &s) {
         return true;
     }
 #endif
-
-    else if (isLtr(s[0])) {  // 变量赋值
-        int pos = 0;
-        std::string var = getVar(s, pos);
-        if (pos != -1 && (s[pos + 1] == '=')) {
-            cache.set(var, Calc(s.substr(pos + 2, s.size() - pos - 2), false));
-
-            return true;
-        }
-    } else if (getVar(s, 0) == "hex") {  // 十六进制输出
+    else if (getVar(s, 0) == "hex") {  // 十六进制输出
         printHex(Calc(s.substr(4, s.size() - 5), false));
         return true;
     } else if (getVar(s, 0) == "radix") {  // 以n位小数形式输出
@@ -177,10 +168,10 @@ bool SpecialCMD(std::string &s) {
 
         return true;
     } else if (s == "debugon" || s == "debug on") {  // 打开debug
-        SYMBOLDEBUG = true;
+        SYMBOL_DEBUG = true;
         return true;
     } else if (s == "debugoff" || s == "debug off") {  // 关闭debug
-        SYMBOLDEBUG = false;
+        SYMBOL_DEBUG = false;
         return true;
     } else if (s == "help") {  // 打开帮助信息
         printf("%s", helpInf);
@@ -191,6 +182,14 @@ bool SpecialCMD(std::string &s) {
     } else if (s == "demo") {  // 显示示例
         demo();
         return true;
+    } else if (isLtr(s[0])) {  // 变量赋值
+        int pos = 0;
+        std::string var = getVar(s, pos);
+        if (pos != -1 && (s[pos + 1] == '=')) {
+            cache.set(var, Calc(s.substr(pos + 2, s.size() - pos - 2), false));
+
+            return true;
+        }
     }
 
     return false;
