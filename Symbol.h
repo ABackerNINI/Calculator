@@ -3,13 +3,15 @@
 #ifndef _CALC_SYMBOL_ABACKER_
 #define _CALC_SYMBOL_ABACKER_
 
+#include <stack>
+#include <string>
 #include <cstring>
 #include <iostream>
 
 #include "Common.h"
 #include "Algorithm.h"
 
-using namespace std;
+extern bool SYMBOLDEBUG;  // defined in Calc.cpp
 
 // #pragma warning(disable:4996)
 
@@ -31,7 +33,7 @@ using namespace std;
 // 1,   2,   3,   4,    5,    6,    7,    8,     9,    10,     11,    12,    13,
 // 14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
 // 25,  26,  27,     28, 29,
-static const string Operators[OPERATORN] = {
+static const std::string Operators[OPERATORN] = {
     "+",      "-",   "*",    "/",    "++",  "--",  "**",     "// ",
     "%",      "pow", "sqrt", "sin",  "cos", "tan", "arcsin", "arccos",
     "arctan", "gcd", "lcm",  "ln",   "log", "^",   "|",      "&",
@@ -66,7 +68,7 @@ static const string VarRpcmet[] = {" 3.14159265358979323846264",
 inline int endSym() { return OPERATORN - 1 + DEVIATION; }
 
 // 预处理括号,正负号和运算符映射
-void precondition(string &expr) {
+void precondition(std::string &expr) {
     // 括号替换
     int size = (int)expr.size();
     for (int i = 0; i < size; ++i) {
@@ -90,13 +92,13 @@ void precondition(string &expr) {
 
     // 符号替换
     size_t at;
-    string rpc = " ";
+    std::string rpc = " ";
     for (int i = OPERATORN - 1; i > -1; --i) {
         rpc[0] = i + DEVIATION;
         while (at = expr.find(Operators[i]), ~at) {
             expr.replace(at, Operators[i].size(), rpc);
 #if (DEBUG & DEBUG_OPERATOR_MAP)
-            cout << "\t" << Operators[i] << "->" << rpc << endl;
+            std::cout << "\t" << Operators[i] << "->" << rpc << std::endl;
 #endif
         }
     }
@@ -107,14 +109,15 @@ void precondition(string &expr) {
         while (at = s.find(Variables[i]), ~at) {
             s.replace(at, Variables[i].size(), VarRpcmet[i]);
 #if (DEBUG & DEBUG_VARIABALE_MAP)
-            cout << "\t" << Variables[i] << "->" << VarRpcmet[i] << endl;
+            std::cout << "\t" << Variables[i] << "->" << VarRpcmet[i]
+                      << std::endl;
 #endif
         }
     }
 #endif
 
 #if (DEBUG & DEBUG_OPERATOR_MAP)
-    cout << "\t" << s << endl;
+    std::cout << "\t" << s << std::endl;
 #endif
 }
 
@@ -126,7 +129,7 @@ void precondition(string &expr) {
 // "|", "&", "~", "!", "'", "arc'", "#"
 
 // 计算OPTR栈首定义的运算
-void Calc(stack<char> &OPTR, stack<double> &OPND) {
+void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
     char sym = GetTop(OPTR);
     double ans = 0, b = 0, a = 0;
     if (OptrCpd[sym - DEVIATION] > 0) b = GetTop(OPND);
@@ -185,7 +188,7 @@ void Calc(stack<char> &OPTR, stack<double> &OPND) {
             ans = atan(b);
             break;
         case 18:
-            ans = (double)gcd((LL)min(a, b), (LL)max(a, b));
+            ans = (double)gcd((LL)std::min(a, b), (LL)std::max(a, b));
             break;
         case 19:
             ans = (double)lcm((LL)a, (LL)b);
@@ -218,17 +221,17 @@ void Calc(stack<char> &OPTR, stack<double> &OPND) {
             ans = b * 180 / acos(-1.0);
             break;  // 弧度转角度
         default:
-            throw runtime_error("Error:Wrong Expression!");
+            throw std::runtime_error("Error:Wrong Expression!");
             break;
     }
 
     OPND.push(ans);
 
     if (SYMBOLDEBUG) {
-        cout << "\t" << a << " " << Operators[sym - DEVIATION] << " " << b
-             << " = " << ans << "\t";
+        std::cout << "\t" << a << " " << Operators[sym - DEVIATION] << " " << b
+                  << " = " << ans << "\t";
         doubleToFraction(ans);
-        cout << endl;
+        std::cout << std::endl;
     }
 }
 

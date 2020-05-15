@@ -17,23 +17,44 @@
 #include <windows.h>
 #endif
 
-using namespace std;
+bool SYMBOLDEBUG = true;
 
-void demo(const string &s, const char *ps = NULL) {
-    bool SpecialCMD(const string &s);
+static const char *helpInf =
+    "Calc V2.0    2015    @ABacker\n"
+    "\n"
+    "##运算符优先级:\n"
+    "0	#\n"
+    "1	^(异或)		|(或)		&(与)		~(取反)\n"
+    "2	+		-		++(正)		--(负)\n"
+    "3	*		/		%%(取模)\n"
+    "4	**(乘方)	// (开方)\n"
+    "5	math_func\n"
+    "6	!(阶乘)		'(角度转弧度)\n"
+    "其中math_func包括:\n"
+    "pow(乘方),sqrt(方根),sin,cos,tan,arcsin,arccos,arctan,arc'(弧度转角度),"
+    "gcd(最大公约数),lcm(最小公倍数),log,ln\n"
+    "\n"
+    "##特殊命令:\n"
+    "cls: 清屏\n"
+    "debug on/debug off: 打开/关闭调试消息显示\n"
+    "\n"
+    "输入\"demo\"获取示例...\n";
+
+void demo(const std::string &s, const char *ps = NULL) {
+    bool SpecialCMD(const std::string &s);
 
     if (s == "") return;
-    cout << ">" << s;
+    std::cout << ">" << s;
     if (ps != NULL) {
         int nSpace = 40 - (int)s.size();
         while (--nSpace && nSpace > 0) printf(" ");
-        cout << "[" << ps << "]";
+        std::cout << "[" << ps << "]";
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void demo() {
-    string s;
+    std::string s;
     SYMBOLDEBUG = false;
     s = "3/2 + 1/3 + 1/(-3)";
     demo(s, "运算式中可以有空格");  // 1.5 3/2
@@ -105,68 +126,69 @@ void demo() {
     SYMBOLDEBUG = true;
 }
 
-bool SpecialCMD(string &s) {
+bool SpecialCMD(std::string &s) {
     // 去除所有空格
     char *tmp = new char[s.size()];
     unsigned int i = 0, j = 0;
     for (; i < s.size(); ++i)
         if (s[i] != ' ') tmp[j++] = s[i];
     tmp[j] = '\0';
-    s = (string)tmp;
+    s = (std::string)tmp;
 
-    if (s == "") return true;
-    if (s == "cls") {  // 清屏
+    if (s == "")
+        return true;
+    else if (s == "cls") {  // 清屏
+#ifdef _WIN32
         system("cls");
+#else
+        system("clear");
+#endif
         return true;
     }
-    if (s == "calc") {  // 调用系统计算器
+
+#ifdef _WIN32
+    else if (s == "calc") {  // 调用系统计算器
         system("calc");
         return true;
     }
-    if (isLtr(s[0])) {  // 变量赋值
+#endif
+
+    else if (isLtr(s[0])) {  // 变量赋值
         int pos = 0;
-        string var = getVar(s, pos);
+        std::string var = getVar(s, pos);
         if (pos != -1 && (s[pos + 1] == '=')) {
             cache.set(var, Calc(s.substr(pos + 2, s.size() - pos - 2), false));
 
             return true;
         }
-    }
-    if (getVar(s, 0) == "hex") {  // 十六进制输出
+    } else if (getVar(s, 0) == "hex") {  // 十六进制输出
         printHex(Calc(s.substr(4, s.size() - 5), false));
         return true;
-    }
-    if (getVar(s, 0) == "radix") {  // 以n位小数形式输出
+    } else if (getVar(s, 0) == "radix") {  // 以n位小数形式输出
         int pos = 6;
         unsigned int n = (unsigned int)getFigure(s, pos);
         printRadix(Calc(s.substr(pos + 2, s.size() - pos - 3), false), n);
 
         return true;
-    }
-    if (getVar(s, 0) == "isprime") {  // 判断数字是否为质数
+    } else if (getVar(s, 0) == "isprime") {  // 判断数字是否为质数
         double ans = Calc(s.substr(7), false);
         printf(isPrime(ans) ? ("\t%" LLD " true\n") : ("\t%" LLD " false\n"),
                (long long)ans);
 
         return true;
-    }
-    if (s == "debugon") {  // 打开debug
+    } else if (s == "debugon" || s == "debug on") {  // 打开debug
         SYMBOLDEBUG = true;
         return true;
-    }
-    if (s == "debugoff") {  // 关闭debug
+    } else if (s == "debugoff" || s == "debug off") {  // 关闭debug
         SYMBOLDEBUG = false;
         return true;
-    }
-    if (s == "help") {  // 打开帮助信息
+    } else if (s == "help") {  // 打开帮助信息
         printf("%s", helpInf);
         return true;
-    }
-    if (s == "var") {  // 打印全部自定义变量
+    } else if (s == "var") {  // 打印全部自定义变量
         cache.printAll();
         return true;
-    }
-    if (s == "demo") {  // 显示示例
+    } else if (s == "demo") {  // 显示示例
         demo();
         return true;
     }
@@ -175,17 +197,19 @@ bool SpecialCMD(string &s) {
 }
 
 int main() {
+#ifdef _WIN32
     system("chcp 65001");
     system("cls");
+#endif
 
-    printf("输入\"help\"获取帮助信息...\n");
+    std::cout << "输入\"help\"获取帮助信息...\n" << std::endl;
 
-    string s;
-    while (printf(">"), getline(cin, s)) {
+    std::string s;
+    while (printf(">"), getline(std::cin, s)) {
         try {
             if (!SpecialCMD(s)) Calc(s);
-        } catch (runtime_error &e) {
-            cout << "\t" << e.what() << endl;
+        } catch (std::runtime_error &e) {
+            std::cout << "\t" << e.what() << std::endl;
         }
     }
     return 0;

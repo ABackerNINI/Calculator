@@ -11,13 +11,11 @@
 #include "Symbol.h"
 #include "Common.h"
 
-using namespace std;
-
 Cache cache;
-stack<char> OPTR;
-stack<double> OPND;
+std::stack<char> OPTR;
+std::stack<double> OPND;
 
-double Calc(string expr, bool isCache = true) {
+double Calc(std::string expr, bool isCache = true) {
     precondition(expr);
 
     while (!OPTR.empty()) OPTR.pop();
@@ -35,7 +33,7 @@ double Calc(string expr, bool isCache = true) {
             try {
                 OPND.push(cache.get(getVar(expr, i)));
             } catch (...) {
-                throw runtime_error("Error:Wrong Expression!");
+                throw std::runtime_error("Error:Wrong Expression!");
             }
         } else if (isNum(expr[i]))
             OPND.push(getFigure(expr, i));  // 数字
@@ -61,7 +59,7 @@ double Calc(string expr, bool isCache = true) {
     }
 
     if (OPTR.size() > 1 || OPND.size() > 1)
-        throw runtime_error("Error:Wrong Expression!");
+        throw std::runtime_error("Error:Wrong Expression!");
     if (isCache) {
         cache.push(GetTop(OPND, false));
         cache.printLastPush();

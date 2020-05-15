@@ -29,7 +29,7 @@ rebuild: clean all
 
 # Executable 1
 
-obj = Calc.o
+obj = Calc.o Common.o Algorithm.o
 obj_bd = $(obj:%=$(BD)/%)
 
 $(bin): prepare $(obj_bd)
@@ -37,6 +37,8 @@ $(bin): prepare $(obj_bd)
 
 # Dependencies
 
+$(BD)/Common.o: Common.h
+$(BD)/Algorithm.o: Algorithm.h Common.h
 $(BD)/Calc.o: Calc.h Cache.h Symbol.h Common.h Algorithm.h
 
 # Clean up

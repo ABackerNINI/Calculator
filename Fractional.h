@@ -11,10 +11,6 @@
 #include "Common.h"
 #include "Algorithm.h"
 
-using namespace std;
-
-// LL gcd(LL a, LL b);
-
 class Fraction {
    public:
     Fraction() : numerator(0), denominator(0) {}
@@ -88,8 +84,8 @@ class Fraction {
             numerator = -numerator;
             denominator = -denominator;
         }
-        LL cd = gcd(min(abs(numerator), denominator),
-                    max(abs(numerator), denominator));
+        LL cd = gcd(std::min(std::abs(numerator), denominator),
+                    std::max(std::abs(numerator), denominator));
         numerator /= cd;
         denominator /= cd;
     }
