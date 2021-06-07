@@ -51,3 +51,13 @@ std::string getVar(const std::string &s, int &&pos) {
 /*string getSym(const string &s, int &pos){
         string tmp;tmp += s[pos];
 }*/
+
+void RemoveSpaces(std::string &s) {
+    size_t len = 0;
+    for (size_t i = 0; i < s.size(); ++i) {
+        if (!isspace(s[i])) {
+            s[len++] = s[i];
+        }
+    }
+    s.resize(len);
+}
