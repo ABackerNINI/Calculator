@@ -195,27 +195,23 @@ double Calc(std::string expr, bool isCache) {
     while (!OPTR.empty()) OPTR.pop();
     while (!OPND.empty()) OPND.pop();
 
-    OPTR.push(endSym());  //#
+    OPTR.push(endSym());  // #
 
     int size = (int)expr.size();
     // if (s.back() == '=')--size;
 
     for (int i = 0; i < size; ++i) {
-        if (expr[i] == ' ' || expr[i] == '=')
+        if (expr[i] == ' ' || expr[i] == '=') {
             continue;
-        else if (isLtr(expr[i])) {  // 变量
-            try {
-                OPND.push(cache.get(getVar(expr, i)));
-            } catch (...) {
-                throw std::runtime_error("Error:Wrong Expression!");
-            }
-        } else if (isNum(expr[i]))
+        } else if (isLtr(expr[i])) {  // 变量
+            OPND.push(cache.get(getVar(expr, i)));
+        } else if (isNum(expr[i])) {
             OPND.push(getFigure(expr, i));  // 数字
-        else if (expr[i] == ',')
+        } else if (expr[i] == ',') {
             while (GetTop(OPTR, false) != '(') Calc(OPTR, OPND);
-        else if (expr[i] == '(')
+        } else if (expr[i] == '(') {
             OPTR.push('(');
-        else if (expr[i] == ')') {
+        } else if (expr[i] == ')') {
             while (GetTop(OPTR, false) != '(') {
                 Calc(OPTR, OPND);
             }
@@ -228,12 +224,14 @@ double Calc(std::string expr, bool isCache) {
         }
     }
 
-    while (GetTop(OPTR, false) != endSym()) {  //#
+    while (GetTop(OPTR, false) != endSym()) {  // #
         Calc(OPTR, OPND);
     }
 
-    if (OPTR.size() > 1 || OPND.size() > 1)
-        throw std::runtime_error("Error:Wrong Expression!");
+    if (OPTR.size() > 1 || OPND.size() > 1) {
+        throw std::runtime_error(
+            "Error: Wrong Expression! Redundant operand(s).");
+    }
     if (isCache) {
         cache.push(GetTop(OPND, false));
         cache.printLastPush();
@@ -256,6 +254,8 @@ int main() {
             if (!SpecialCMD(s)) Calc(s);
         } catch (std::runtime_error &e) {
             std::cout << "\t" << e.what() << std::endl;
+        } catch (...) {
+            std::cout << "\tUnknown error" << std::endl;
         }
     }
     return 0;

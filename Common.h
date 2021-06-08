@@ -43,14 +43,18 @@ inline bool isCap(char c) { return c >= 'A' && c <= 'Z'; }
 // 判断栈顶是否为空
 template <typename T>
 inline T GetTop(std::stack<T> &st, bool rid = true) {
-    if (st.empty()) throw std::runtime_error("Error:Wrong Expression!");
+    if (st.empty()) {
+        throw std::runtime_error(
+            "Error: Wrong Expression! Missing operand(s).");
+    }
 
     if (rid) {
         T ret = st.top();
         st.pop();
         return ret;
-    } else
+    } else {
         return st.top();
+    }
 }
 
 #endif

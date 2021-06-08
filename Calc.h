@@ -15,6 +15,7 @@ Cache cache;
 std::stack<char> OPTR;
 std::stack<double> OPND;
 
+bool SpecialCMD(std::string &s);
 double Calc(std::string expr, bool isCache = true);
 
 #endif

@@ -4,7 +4,7 @@
 #define _CALC_FRACTIONAL_ABACKER_
 
 #define LL long long
-#define EPS 1e-10
+#define EPS (1e-10)
 
 #include <cmath>
 #include <algorithm>

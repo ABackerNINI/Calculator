@@ -11,7 +11,7 @@
 #include "Common.h"
 
 #define LL long long
-#define EPS 1e-10
+#define EPS (1e-6)
 #define MAX_OF_DENOMINATOR 100000LL
 
 // 最大公约数
@@ -42,15 +42,15 @@ inline LL lcm(LL a, LL b) {
 
 // 返回a/b,检查除数b是否为0
 inline double divCheck(double a, double b) {
-    if (b == 0) throw std::runtime_error("Error:Bad Number For Division!");
+    if (b == 0) throw std::runtime_error("Error: Zero divisor!");
 
     return a / b;
 }
 
-// 判断val是否为整数,精度(1e-10)
+// 判断val是否为整数,精度(EPS)
 inline bool isInt(double val) {
     double d = val - round(val);
-    return d > -(1e-10) && d < 1e-10;
+    return d > -EPS && d < EPS;
 }
 
 // 产生一个属于区间[s,t]的整数

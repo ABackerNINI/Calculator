@@ -77,9 +77,11 @@ bool isPrime(double val) {
         if ((num & 1) == 0) return false;
         int _num = (int)num;
         int bd = (int)sqrt(_num) + 1;
-        for (int i = 3; i < bd; i += 2)
+        for (int i = 3; i < bd; i += 2) {
             if (_num % i == 0) return false;
+        }
         return true;
-    } else
+    } else {
         return FermatTest(num);
+    }
 }

@@ -221,7 +221,7 @@ void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
             ans = b * 180 / acos(-1.0);
             break;  // 弧度转角度
         default:
-            throw std::runtime_error("Error:Wrong Expression!");
+            throw std::runtime_error("Error: Wrong Expression! No such operator.");
             break;
     }
 
