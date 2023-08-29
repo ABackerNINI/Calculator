@@ -5,13 +5,15 @@
 
 #include "Algorithm.h"
 #include "Common.h"
+#include "Operator.h"
 #include <cstring>
 #include <iostream>
 #include <stack>
 #include <string>
 #include <vector>
 
-extern bool SYMBOL_DEBUG; // defined in main.cpp
+extern bool SYMBOL_DEBUG;   // defined in main.cpp
+extern Operators OPERATORS; // defined in Calc.cpp
 
 // #pragma warning(disable:4996)
 
@@ -26,33 +28,6 @@ extern bool SYMBOL_DEBUG; // defined in main.cpp
 // ^, |, &, !, ~, ',arc',var, #,
 
 #define DEVIATION -100 // 运算符映射偏移量,改为'a'可以更好debug运算符替换,但可能影响运算符映射
-
-class Operator {
-  public:
-    Operator(const std::string &operatorName, int priority, int operandNum)
-        : operatorName(operatorName), priority(priority), operandNum(operandNum) {}
-
-    const std::string &getOperatorName() const { return operatorName; }
-
-    int getPriority() const { return priority; }
-
-    int getOperandNum() const { return operandNum; }
-
-  private:
-    std::string operatorName;
-    int priority;
-    int operandNum;
-};
-
-static std::vector<Operator> OPERATORS = {
-    Operator{"+", 2, 2},      Operator{"-", 2, 2},   Operator{"*", 3, 2},      Operator{"/", 3, 2},
-    Operator{"++", 2, 1},     Operator{"--", 2, 1},  Operator{"**", 4, 2},     Operator{"//", 4, 2},
-    Operator{"%", 3, 2},      Operator{"pow", 5, 2}, Operator{"sqrt", 5, 1},   Operator{"sin", 5, 1},
-    Operator{"cos", 5, 1},    Operator{"tan", 5, 1}, Operator{"arcsin", 5, 1}, Operator{"arccos", 5, 1},
-    Operator{"arctan", 5, 1}, Operator{"gcd", 5, 2}, Operator{"lcm", 5, 2},    Operator{"ln", 5, 1},
-    Operator{"log", 5, 2},    Operator{"^", 1, 2},   Operator{"|", 1, 2},      Operator{"&", 1, 2},
-    Operator{"~", 1, 1},      Operator{"!", 6, 1},   Operator{"'", 6, 1},      Operator{"arc'", 5, 1},
-    Operator{"#", 0, 0}};
 
 /**
 0	#

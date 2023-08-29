@@ -18,7 +18,7 @@ clean:
 
 # EXECUTABLE
 
-OBJ      = main.o Algorithm.o Calc.o Common.o
+OBJ      = main.o Algorithm.o Calc.o Common.o Operator.o
 OBJBD    = $(OBJ:%=$(BUILD)/%)
 
 $(TARGET): $(OBJBD)

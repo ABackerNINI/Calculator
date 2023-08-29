@@ -18,6 +18,7 @@
 Cache cache;
 std::stack<char> OPTR;
 std::stack<double> OPND;
+Operators OPERATORS;
 
 double Calc(std::string expr, bool isCache) {
     precondition(expr);
