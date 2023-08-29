@@ -20,31 +20,16 @@ extern Operators OPERATORS; // defined in Calc.cpp
 #define DEBUG 0x0
 #define DEBUG_OPERATOR_MAP 0x1
 #define DEBUG_VARIABLE_MAP 0x1
-#define VAR_REPLACE 0
-
-// 1,2,3,4, 5, 6, 7, 8,9, 10,  11, 12, 13,    14,    15,    16, 17, 18,19,
-// 20,21,22,23,24,25,26,  27, 28,29,
-// +,-,*,/,++,--,**,//,%,pow,sqrt,sin,cos,tan,arcsin,arccos,arctan,gcd,lcm,ln,log,
-// ^, |, &, !, ~, ',arc',var, #,
+#define CONST_VAR_REPLACE 0
 
 #define DEVIATION -100 // 运算符映射偏移量,改为'a'可以更好debug运算符替换,但可能影响运算符映射
 
-/**
-0	#
-1	^	|	&	~
-2	+	-	++	--
-3	*	/	%
-4	**	//
-5	math_func
-6	!	'
-*/
-
-#if VAR_REPLACE
+#if CONST_VAR_REPLACE
 #define VARIABLE_LEN 2 // 常量的个数
 
 // 常量映射,同样注意不能具有前包含性,且不能包含运算符,如:"cospi"包含了"cos",所以不能使用"cospi"
-static const string Variables[] = {"PI", "e"};
-static const string VarRpcmet[] = {" 3.14159265358979323846264", "2.718281828459"};
+static const std::string Variables[] = {"PI", "e"};
+static const std::string VarRpcmet[] = {" 3.14159265358979323846264", "2.718281828459"};
 #endif
 
 // 结束符#
@@ -88,7 +73,7 @@ inline void precondition(std::string &expr) {
         }
     }
 
-#if (VAR_REPLACE)
+#if (CONST_VAR_REPLACE)
     // 变量替换
     for (int i = 0; i < VARIABLE_LEN; ++i) {
         while (at = s.find(Variables[i]), ~at) {
@@ -104,13 +89,6 @@ inline void precondition(std::string &expr) {
     std::cout << "\t" << s << std::endl;
 #endif
 }
-
-//  1,   2,   3,   4,    5,    6,    7,    8,     9,    10,     11,    12, 13,
-//  14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
-//  25,  26,  27,     28, 29,
-// "+", "-", "*", "/", "++", "--", "**", "//",   "%", "pow", "sqrt", "sin",
-// "cos", "tan", "arcsin", "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",
-// "|", "&", "~", "!", "'", "arc'", "#"
 
 // 计算OPTR栈首定义的运算
 inline void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
