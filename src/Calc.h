@@ -3,13 +3,12 @@
 #ifndef _CALC_CALC_ABACKER_
 #define _CALC_CALC_ABACKER_
 
-#include <stack>
+#include "Cache.h"
+#include "Common.h"
+#include "Symbol.h"
 #include <cstring>
 #include <iostream>
-
-#include "Cache.h"
-#include "Symbol.h"
-#include "Common.h"
+#include <stack>
 
 Cache cache;
 std::stack<char> OPTR;

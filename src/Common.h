@@ -3,9 +3,9 @@
 #ifndef _CALC_COMMON_ABACKER_
 #define _CALC_COMMON_ABACKER_
 
+#include <iostream>
 #include <stack>
 #include <string>
-#include <iostream>
 
 #ifdef _WIN32
 #define LLD "I64d"
@@ -30,7 +30,9 @@ void RemoveSpaces(std::string &s);
 //////////////////////////////////////////////////////////////////////////////
 
 // 判断是否为数字
-inline bool isNum(char c) { return c >= '0' && c <= '9'; }
+inline bool isNum(char c) {
+    return c >= '0' && c <= '9';
+}
 
 // 判断是否为字母
 inline bool isLtr(char c) {
@@ -38,14 +40,14 @@ inline bool isLtr(char c) {
 }
 
 // 判断是否为大写字母
-inline bool isCap(char c) { return c >= 'A' && c <= 'Z'; }
+inline bool isCap(char c) {
+    return c >= 'A' && c <= 'Z';
+}
 
 // 判断栈顶是否为空
-template <typename T>
-inline T GetTop(std::stack<T> &st, bool rid = true) {
+template <typename T> inline T GetTop(std::stack<T> &st, bool rid = true) {
     if (st.empty()) {
-        throw std::runtime_error(
-            "Error: Wrong Expression! Missing operand(s).");
+        throw std::runtime_error("Error: Wrong Expression! Missing operand(s).");
     }
 
     if (rid) {

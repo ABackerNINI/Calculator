@@ -3,12 +3,11 @@
 #ifndef _CALC_ALGORITHM_ABACKER_
 #define _CALC_ALGORITHM_ABACKER_
 
-#include <cmath>
-#include <time.h>
-#include <iostream>
-#include <algorithm>
-
 #include "Common.h"
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <time.h>
 
 #define LL long long
 #define EPS (1e-6)
@@ -42,7 +41,8 @@ inline LL lcm(LL a, LL b) {
 
 // 返回a/b,检查除数b是否为0
 inline double divCheck(double a, double b) {
-    if (b == 0) throw std::runtime_error("Error: Zero divisor!");
+    if (b == 0)
+        throw std::runtime_error("Error: Zero divisor!");
 
     return a / b;
 }
@@ -54,7 +54,9 @@ inline bool isInt(double val) {
 }
 
 // 产生一个属于区间[s,t]的整数
-inline int random(int s, int t) { return s + rand() % (t - s + 1); }
+inline int random(int s, int t) {
+    return s + rand() % (t - s + 1);
+}
 
 // 将num以n位小数输出
 inline void printRadix(double num, unsigned int n) {

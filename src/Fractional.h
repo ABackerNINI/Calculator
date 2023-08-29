@@ -6,18 +6,15 @@
 #define LL long long
 #define FRACTION_EPS (1e-10)
 
-#include <cmath>
-#include <algorithm>
-#include "Common.h"
 #include "Algorithm.h"
+#include "Common.h"
+#include <algorithm>
+#include <cmath>
 
 class Fraction {
-   public:
+  public:
     Fraction() : numerator(0), denominator(0) {}
-    Fraction(LL numerator, LL denominator)
-        : numerator(numerator), denominator(denominator) {
-        yueFen();
-    }
+    Fraction(LL numerator, LL denominator) : numerator(numerator), denominator(denominator) { yueFen(); }
     Fraction(double val) {
         Fraction L((LL)val, 1), R((LL)val + 1, 1), Mid;
         double d;
@@ -71,21 +68,18 @@ class Fraction {
         return tmp;
     }
 
-    void Print() const {
-        printf("%" LLD "/%" LLD "\n", numerator, denominator);
-    }
+    void Print() const { printf("%" LLD "/%" LLD "\n", numerator, denominator); }
 
-   private:
-    LL numerator;    // fen zi
-    LL denominator;  // fen mu
+  private:
+    LL numerator;   // fen zi
+    LL denominator; // fen mu
 
     void yueFen() {
         if (denominator < 0) {
             numerator = -numerator;
             denominator = -denominator;
         }
-        LL cd = gcd(std::min(std::abs(numerator), denominator),
-                    std::max(std::abs(numerator), denominator));
+        LL cd = gcd(std::min(std::abs(numerator), denominator), std::max(std::abs(numerator), denominator));
         numerator /= cd;
         denominator /= cd;
     }

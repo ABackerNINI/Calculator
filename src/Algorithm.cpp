@@ -1,18 +1,19 @@
 #include "Algorithm.h"
-
-#include <cmath>
-#include <time.h>
-#include <iostream>
-#include <algorithm>
-
 #include "Common.h"
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <time.h>
 
 // 最大公约数
-LL gcd(LL a, LL b) { return a == 0 ? b : gcd(b % a, a); }
+LL gcd(LL a, LL b) {
+    return a == 0 ? b : gcd(b % a, a);
+}
 
 // 阶乘
 LL factorial(LL x) {
-    if (x == 0) return 1;
+    if (x == 0)
+        return 1;
     bool negative = false;
 
     if (x < 0) {
@@ -21,7 +22,8 @@ LL factorial(LL x) {
     }
 
     LL ret = 1;
-    for (int i = 1; i <= x; ++i) ret *= i;
+    for (int i = 1; i <= x; ++i)
+        ret *= i;
 
     return negative ? -ret : ret;
 }
@@ -74,11 +76,13 @@ bool FermatTest(LL val, int test) {
 bool isPrime(double val) {
     LL num = (LL)(val + EPS);
     if (num < 10 * 10000 * 10000) {
-        if ((num & 1) == 0) return false;
+        if ((num & 1) == 0)
+            return false;
         int _num = (int)num;
         int bd = (int)sqrt(_num) + 1;
         for (int i = 3; i < bd; i += 2) {
-            if (_num % i == 0) return false;
+            if (_num % i == 0)
+                return false;
         }
         return true;
     } else {
