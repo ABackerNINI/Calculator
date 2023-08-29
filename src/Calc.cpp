@@ -16,6 +16,9 @@
 #endif
 
 bool SYMBOL_DEBUG = true;
+Cache cache;
+std::stack<char> OPTR;
+std::stack<double> OPND;
 
 static const char *helpInf = "Calc V2.0    2015    @ABacker\n"
                              "\n"
@@ -122,12 +125,15 @@ void demo() {
     SYMBOL_DEBUG = true;
 }
 
-bool SpecialCMD(std::string &s) {
+bool SpecialCMD(std::string &s, bool &quit) {
     RemoveSpaces(s);
 
     if (s == "")
         return true;
-    else if (s == "cls") { // 清屏
+    else if (s == "exit" || s == "quit") {
+        quit = true;
+        return true;
+    } else if (s == "cls") { // 清屏
 #ifdef _WIN32
         system("cls");
 #else
@@ -245,11 +251,15 @@ int main() {
 
     std::cout << "输入\"help\"获取帮助信息...\n" << std::endl;
 
+    bool quit = false;
     std::string s;
     while (printf(">"), getline(std::cin, s)) {
         try {
-            if (!SpecialCMD(s))
+            if (!SpecialCMD(s, quit)) {
                 Calc(s);
+            } else if (quit) {
+                break;
+            }
         } catch (std::runtime_error &e) { std::cout << "\t" << e.what() << std::endl; } catch (...) {
             std::cout << "\tUnknown error" << std::endl;
         }
