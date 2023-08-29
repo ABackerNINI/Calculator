@@ -193,8 +193,6 @@ int main() {
     system("cls");
 #endif
 
-    testOperators();
-
     std::cout << "输入\"help\"获取帮助信息...\n" << std::endl;
 
     bool quit = false;

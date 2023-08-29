@@ -25,23 +25,7 @@ extern bool SYMBOL_DEBUG; // defined in main.cpp
 // +,-,*,/,++,--,**,//,%,pow,sqrt,sin,cos,tan,arcsin,arccos,arctan,gcd,lcm,ln,log,
 // ^, |, &, !, ~, ',arc',var, #,
 
-#define NUM_OPERATORS 29 // 运算符的个数
 #define DEVIATION -100 // 运算符映射偏移量,改为'a'可以更好debug运算符替换,但可能影响运算符映射
-
-// 运算符映射,注意不能具有前包含性,即"++"包含了"+",所以"++"需在后;"#"需在最后
-// 1,   2,   3,   4,    5,    6,    7,    8,     9,    10,     11,    12,    13,
-// 14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
-// 25,  26,  27,     28, 29,
-static const std::string Operators[NUM_OPERATORS] = {
-    "+",      "-",      "*",   "/",   "++", "--",  "**", "//", "%", "pow", "sqrt", "sin", "cos",  "tan", "arcsin",
-    "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",  "|",  "&", "~",   "!",    "'",   "arc'", "#"};
-
-// 运算符优先级
-static const int OptrPrio[NUM_OPERATORS] = {2, 2, 3, 3, 2, 2, 4, 4, 3, 5, 5, 5, 5, 5, 5,
-                                            5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 6, 6, 5, 0};
-// 运算符目数
-static const int OptrCpd[NUM_OPERATORS] = {2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1,
-                                           1, 1, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0};
 
 class Operator {
   public:
@@ -70,26 +54,6 @@ static std::vector<Operator> OPERATORS = {
     Operator{"~", 1, 1},      Operator{"!", 6, 1},   Operator{"'", 6, 1},      Operator{"arc'", 5, 1},
     Operator{"#", 0, 0}};
 
-inline void testOperators() {
-    for (int i = 0; i < NUM_OPERATORS; ++i) {
-        if (Operators[i] != OPERATORS[i].getOperatorName()) {
-            std::cout << "Error: Operator name not match!" << Operators[i] << " " << OPERATORS[i].getOperatorName()
-                      << std::endl;
-            exit(0);
-        }
-        if (OptrPrio[i] != OPERATORS[i].getPriority()) {
-            std::cout << "Error: Operator priority not match!" << Operators[i] << " " << OPERATORS[i].getOperatorName()
-                      << std::endl;
-            exit(0);
-        }
-        if (OptrCpd[i] != OPERATORS[i].getOperandNum()) {
-            std::cout << "Error: Operator operand number not match!" << Operators[i] << " "
-                      << OPERATORS[i].getOperatorName() << std::endl;
-            exit(0);
-        }
-    }
-}
-
 /**
 0	#
 1	^	|	&	~
@@ -110,7 +74,7 @@ static const string VarRpcmet[] = {" 3.14159265358979323846264", "2.718281828459
 
 // 结束符#
 inline int endSym() {
-    return NUM_OPERATORS - 1 + DEVIATION;
+    return OPERATORS.size() - 1 + DEVIATION;
 }
 
 // 预处理括号,正负号和运算符映射
@@ -139,10 +103,10 @@ inline void precondition(std::string &expr) {
     // 符号替换
     size_t at;
     std::string rpc = " ";
-    for (int i = NUM_OPERATORS - 1; i > -1; --i) {
+    for (int i = (int)OPERATORS.size() - 1; i > -1; --i) {
         rpc[0] = i + DEVIATION;
-        while (at = expr.find(Operators[i]), ~at) {
-            expr.replace(at, Operators[i].size(), rpc);
+        while (at = expr.find(OPERATORS[i].getOperatorName()), ~at) {
+            expr.replace(at, OPERATORS[i].getOperatorName().length(), rpc);
 #if (DEBUG & DEBUG_OPERATOR_MAP)
             std::cout << "\t" << Operators[i] << "->" << rpc << std::endl;
 #endif
@@ -177,9 +141,9 @@ inline void precondition(std::string &expr) {
 inline void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
     char sym = GetTop(OPTR);
     double ans = 0, b = 0, a = 0;
-    if (OptrCpd[sym - DEVIATION] > 0)
+    if (OPERATORS[sym - DEVIATION].getOperandNum() > 0)
         b = GetTop(OPND);
-    if (OptrCpd[sym - DEVIATION] == 2)
+    if (OPERATORS[sym - DEVIATION].getOperandNum() == 2)
         a = GetTop(OPND); // 双目运算
 
     switch (sym - DEVIATION + 1) {
@@ -275,7 +239,8 @@ inline void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
     OPND.push(ans);
 
     if (SYMBOL_DEBUG) {
-        std::cout << "\t" << a << " " << Operators[sym - DEVIATION] << " " << b << " = " << ans << "\t";
+        std::cout << "\t" << a << " " << OPERATORS[sym - DEVIATION].getOperatorName() << " " << b << " = " << ans
+                  << "\t";
         doubleToFraction(ans);
         std::cout << std::endl;
     }
@@ -285,7 +250,7 @@ inline void Calc(std::stack<char> &OPTR, std::stack<double> &OPND) {
 inline int Prio(char c) {
     if (c == '(')
         return -1;
-    return OptrPrio[c - DEVIATION];
+    return OPERATORS[c - DEVIATION].getPriority();
 }
 
 #undef DEBUG
