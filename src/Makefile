@@ -1,6 +1,6 @@
 # BUILD DETAILS
 
-CXX      = clang++
+CXX      = g++
 CXXFLAGS = -W -Wall -g
 LFLAGS   = -lm
 BUILD    = build
