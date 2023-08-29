@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <vector>
 
 extern bool SYMBOL_DEBUG; // defined in main.cpp
 
@@ -32,8 +33,8 @@ extern bool SYMBOL_DEBUG; // defined in main.cpp
 // 14,       15,       16,       17,    18    ,19,   20,    21,  22,  23,  24,
 // 25,  26,  27,     28, 29,
 static const std::string Operators[NUM_OPERATORS] = {
-    "+",      "-",      "*",   "/",   "++", "--",  "**", "// ", "%", "pow", "sqrt", "sin", "cos",  "tan", "arcsin",
-    "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",  "|",   "&", "~",   "!",    "'",   "arc'", "#"};
+    "+",      "-",      "*",   "/",   "++", "--",  "**", "//", "%", "pow", "sqrt", "sin", "cos",  "tan", "arcsin",
+    "arccos", "arctan", "gcd", "lcm", "ln", "log", "^",  "|",  "&", "~",   "!",    "'",   "arc'", "#"};
 
 // 运算符优先级
 static const int OptrPrio[NUM_OPERATORS] = {2, 2, 3, 3, 2, 2, 4, 4, 3, 5, 5, 5, 5, 5, 5,
@@ -41,6 +42,53 @@ static const int OptrPrio[NUM_OPERATORS] = {2, 2, 3, 3, 2, 2, 4, 4, 3, 5, 5, 5, 
 // 运算符目数
 static const int OptrCpd[NUM_OPERATORS] = {2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1,
                                            1, 1, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0};
+
+class Operator {
+  public:
+    Operator(const std::string &operatorName, int priority, int operandNum)
+        : operatorName(operatorName), priority(priority), operandNum(operandNum) {}
+
+    const std::string &getOperatorName() const { return operatorName; }
+
+    int getPriority() const { return priority; }
+
+    int getOperandNum() const { return operandNum; }
+
+  private:
+    std::string operatorName;
+    int priority;
+    int operandNum;
+};
+
+static std::vector<Operator> OPERATORS = {
+    Operator{"+", 2, 2},      Operator{"-", 2, 2},   Operator{"*", 3, 2},      Operator{"/", 3, 2},
+    Operator{"++", 2, 1},     Operator{"--", 2, 1},  Operator{"**", 4, 2},     Operator{"//", 4, 2},
+    Operator{"%", 3, 2},      Operator{"pow", 5, 2}, Operator{"sqrt", 5, 1},   Operator{"sin", 5, 1},
+    Operator{"cos", 5, 1},    Operator{"tan", 5, 1}, Operator{"arcsin", 5, 1}, Operator{"arccos", 5, 1},
+    Operator{"arctan", 5, 1}, Operator{"gcd", 5, 2}, Operator{"lcm", 5, 2},    Operator{"ln", 5, 1},
+    Operator{"log", 5, 2},    Operator{"^", 1, 2},   Operator{"|", 1, 2},      Operator{"&", 1, 2},
+    Operator{"~", 1, 1},      Operator{"!", 6, 1},   Operator{"'", 6, 1},      Operator{"arc'", 5, 1},
+    Operator{"#", 0, 0}};
+
+inline void testOperators() {
+    for (int i = 0; i < NUM_OPERATORS; ++i) {
+        if (Operators[i] != OPERATORS[i].getOperatorName()) {
+            std::cout << "Error: Operator name not match!" << Operators[i] << " " << OPERATORS[i].getOperatorName()
+                      << std::endl;
+            exit(0);
+        }
+        if (OptrPrio[i] != OPERATORS[i].getPriority()) {
+            std::cout << "Error: Operator priority not match!" << Operators[i] << " " << OPERATORS[i].getOperatorName()
+                      << std::endl;
+            exit(0);
+        }
+        if (OptrCpd[i] != OPERATORS[i].getOperandNum()) {
+            std::cout << "Error: Operator operand number not match!" << Operators[i] << " "
+                      << OPERATORS[i].getOperatorName() << std::endl;
+            exit(0);
+        }
+    }
+}
 
 /**
 0	#

@@ -4,8 +4,8 @@
  * By ABacker 9/18/2015
  */
 
-#include "Calc.h"
 #include "Algorithm.h"
+#include "Calc.h"
 #include "Common.h"
 #include <cstring>
 #include <iostream>
@@ -192,6 +192,8 @@ int main() {
     system("chcp 65001");
     system("cls");
 #endif
+
+    testOperators();
 
     std::cout << "输入\"help\"获取帮助信息...\n" << std::endl;
 
