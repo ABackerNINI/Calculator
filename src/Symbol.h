@@ -10,7 +10,7 @@
 #include <stack>
 #include <string>
 
-extern bool SYMBOL_DEBUG; // defined in Calc.cpp
+extern bool SYMBOL_DEBUG; // defined in main.cpp
 
 // #pragma warning(disable:4996)
 
