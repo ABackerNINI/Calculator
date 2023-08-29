@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": [
+                "cd src || exit 1;",
+                "if [ ! -e 'Makefile' ] && [ ! -e 'makefile' ]; then ascan -abfg; fi; ",
+                "make;"
+            ]
+        }
+    ]
+}

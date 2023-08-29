@@ -4,7 +4,7 @@
 #define _CALC_FRACTIONAL_ABACKER_
 
 #define LL long long
-#define EPS (1e-10)
+#define FRACTION_EPS (1e-10)
 
 #include <cmath>
 #include <algorithm>
@@ -32,7 +32,7 @@ class Fraction {
             R.Print();
             Mid.Print();
             printf("%.15f\n", d);
-        } while (d < -EPS || d > EPS);
+        } while (d < -FRACTION_EPS || d > FRACTION_EPS);
         *this = Mid;
     }
     Fraction(int val) {
